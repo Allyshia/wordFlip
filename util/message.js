@@ -5,6 +5,7 @@
 var db = require('./db');
 var Message = require('../models/message');
 var util = require('util');
+var mongoose = require('mongoose');
 
 module.exports.add = function (messageText, callback) {
     console.log('Adding message...');
@@ -57,73 +58,88 @@ module.exports.getAll = function (callback) {
 module.exports.get = function (messageId, callback) {
     console.log('Getting message: ' + messageId);
 
-    var connection = db.connect(function (error) {
-        if (error) {
-            console.log('There was an error creating a connection to the db.');
-            callback(error);
-        }
-        else {
-            Message.findById(messageId, function (error, message) {
-                if (error) {
-                    console.log('ERROR getting message: ' + util.inspect((error)));
-                    db.closeConnection(); // TODO async?
-                    callback(error, null);
-                }
-                else {
-                    db.closeConnection(); // TODO async?
-                    callback(null, message);
-                }
-            });
-        }
-    });
+    if (!mongoose.Types.ObjectId.isValid(messageId)) {
+        callback(null, null);
+    }
+    else {
+        var connection = db.connect(function (error) {
+            if (error) {
+                console.log('There was an error creating a connection to the db.');
+                callback(error);
+            }
+            else {
+                Message.findById(messageId, function (error, message) {
+                    if (error) {
+                        console.log('ERROR getting message: ' + util.inspect((error)));
+                        db.closeConnection(); // TODO async?
+                        callback(error, null);
+                    }
+                    else {
+                        db.closeConnection(); // TODO async?
+                        callback(null, message);
+                    }
+                });
+            }
+        });
+    }
 };
 
 module.exports.update = function (messageId, params, callback) {
     console.log('Updating message: ' + messageId + ' with params ' + util.inspect(params));
 
-    var connection = db.connect(function (error) {
-        if (error) {
-            console.log('There was an error creating a connection to the db.');
-            callback(error);
-        }
-        else {
-            var options = {};
-            Message.findByIdAndUpdate(messageId, params, options, function (error, message) {
-                if (error) {
-                    console.log('ERROR updating message: ' + util.inspect((error)));
-                    db.closeConnection(); // TODO async?
-                    callback(error, null);
-                }
-                else {
-                    db.closeConnection(); // TODO async?
-                    callback(null, message);
-                }
-            });
-        }
-    });
+    if (!mongoose.Types.ObjectId.isValid(messageId)) {
+        callback(null, null);
+    }
+    else {
+        var connection = db.connect(function (error) {
+            if (error) {
+                console.log('There was an error creating a connection to the db.');
+                callback(error);
+            }
+            else {
+                var options = {};
+                Message.findByIdAndUpdate(messageId, params, options, function (error, message) {
+                    if (error) {
+                        console.log('ERROR updating message: ' + util.inspect((error)));
+                        db.closeConnection(); // TODO async?
+                        callback(error, null);
+                    }
+                    else {
+                        db.closeConnection(); // TODO async?
+                        callback(null, message);
+                    }
+                });
+            }
+        });
+    }
 };
 
 module.exports.remove = function (messageId, callback) {
     console.log('Removing message: ' + messageId);
 
-    var connection = db.connect(function (error) {
-        if (error) {
-            console.log('There was an error creating a connection to the db.');
-            callback(error);
-        }
-        else {
-            var options = {};
-            Message.findByIdAndRemove(messageId, options, function (error, message) {
-                if (error) {
-                    console.log('ERROR removing message: ' + util.inspect((error)));
-                    db.closeConnection(); // TODO async?
-                    callback(error, null);
-                }
-                else {
-                    db.closeConnection(); // TODO async?
-                    callback(null, message);
-                }
-            });
-        }
-    });
+    if (!mongoose.Types.ObjectId.isValid(messageId)) {
+        callback(null, null);
+    }
+    else {
+        var connection = db.connect(function (error) {
+            if (error) {
+                console.log('There was an error creating a connection to the db.');
+                callback(error);
+            }
+            else {
+                var options = {};
+                Message.findByIdAndRemove(messageId, options, function (error, message) {
+                    if (error) {
+                        console.log('ERROR removing message: ' + util.inspect((error)));
+                        db.closeConnection(); // TODO async?
+                        callback(error, null);
+                    }
+                    else {
+                        db.closeConnection(); // TODO async?
+                        callback(null, message);
+                    }
+                });
+            }
+        });
+    }
 };

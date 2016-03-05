@@ -121,7 +121,7 @@ describe('Messages', function () {
             request({
                 url: 'http://localhost:3000/messages/' + messageId,
                 method: 'PUT',
-                body: {text: 'updatedMsg1'},
+                body: { text: 'updatedMsg1' },
                 json: true
             }, function (error, response, body) {
                 expect(response.statusCode).toBe(200);
@@ -168,6 +168,80 @@ describe('Messages', function () {
                     done();
                 });
             });
+        });
+    });
+
+    it('should return a 404 error response for a GET on message that doesn\'t exist', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages/56db10aded0427f90d0210ca',
+            method: 'GET',
+            json: true
+        }, function (error, response, body) {
+            expect(response.statusCode).toBe(404);
+            done();
+        });
+    });
+
+    it('should return a 404 error response for a GET on a message with an invalid ID', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages/someArbitraryTextThatIsntAValidID',
+            method: 'GET',
+            json: true
+        }, function (error, response, body) {
+            expect(response.statusCode).toBe(404);
+            done();
+        });
+    });
+
+    it('should return a 404 error response for a PUT on message that doesn\'t exist', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages/56db10aded0427f90d0210ca',
+            method: 'PUT',
+            body: { text: "test" },
+            json: true
+        }, function (error, response, body) {
+            expect(response.statusCode).toBe(404);
+            done();
+        });
+    });
+
+    it('should return a 404 error response for a PUT message with an invalid ID', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages/someArbitraryTextThatIsntAValidID',
+            method: 'PUT',
+            body: { text: "test" },
+            json: true
+        }, function (error, response, body) {
+            expect(response.statusCode).toBe(404);
+            done();
+        });
+    });
+
+    it('should return a 404 error response for a DELETE on message that doesn\'t exist', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages/56db10aded0427f90d0210ca',
+            method: 'DELETE',
+            json: true
+        }, function (error, response, body) {
+            expect(response.statusCode).toBe(404);
+            done();
+        });
+    });
+
+    it('should return a 404 error response for a DELETE message with an invalid ID', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages/someArbitraryTextThatIsntAValidID',
+            method: 'DELETE',
+            json: true
+        }, function (error, response, body) {
+            expect(response.statusCode).toBe(404);
+            done();
         });
     });
 });

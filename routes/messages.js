@@ -48,6 +48,9 @@ router.get('/:id', function (req, res, next) {
         if (error) {
             res.status(500).send('Could not get message: ' + util.inspect(error));
         }
+        else if (!message) {
+            res.sendStatus(404);
+        }
         else {
             res.status(200).json(
                 {
@@ -67,6 +70,9 @@ router.put('/:id', function (req, res, next) {
             if (error) {
                 res.status(500).json({ error: 'Could not get message: ' + util.inspect(error) });
             }
+            else if (!message) {
+                res.sendStatus(404);
+            }
             else {
                 res.sendStatus(200);
             }
@@ -78,6 +84,9 @@ router.delete('/:id', function (req, res, next) {
     messageUtil.remove(req.params.id, function (error, message) {
         if (error) {
             res.status(500).json({ error: 'Could not remove message: ' + util.inspect(error) });
+        }
+        else if (!message) {
+            res.sendStatus(404);
         }
         else {
             res.sendStatus(200);
