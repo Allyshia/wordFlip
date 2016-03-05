@@ -1,0 +1,25 @@
+{
+  "services": {
+    "local": {
+      "mongo": {
+        "host": "localhost",
+        "port": 27017,
+        "db": "wordflip"
+      }
+    },
+    "production": {
+      "mongo": {
+        "host": "mongo",
+        "port": 27017,
+        "db": "wordflip"
+      }
+    },
+    "test": {
+      "mongo": {
+        "host": "localhost",
+        "port": 27017,
+        "db": "wordFlipTest"
+      }
+    }
+  }
+}
