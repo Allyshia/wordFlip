@@ -1,4 +1,9 @@
 <div>
     <h2>Message Detail</h2>
-    {{message.text}}
+    <form ng-submit="updateMessage()" ng-class="{'has-error': hasError}">
+        <input class="form-control" type="text" ng-model="displayedText" ng-readonly="!editing"
+               ng-click="startEditing()" ng-blur="stopEditing()">
+        <span class="help-block">{{inputHelpMessage}}</span>
+        <span id="inputError2Status" class="sr-only">(error)</span>
+    </form>
 </div>

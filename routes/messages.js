@@ -62,8 +62,8 @@ router.get('/:id', function (req, res, next) {
 });
 
 router.put('/:id', function (req, res, next) {
-    if (!req.body || req.body.text === undefined || req.body.text === null) {
-        res.status(404).json({ error: 'You must provide message text to be updated.' }); //  TODO reconsider this validation
+    if (!req.body || !req.body.text) {
+        res.status(400).json({ error: 'You must provide message text to be updated.' }); //  TODO reconsider this validation
     }
     else {
         messageUtil.update(req.params.id, { text: req.body.text }, function (error, message) {

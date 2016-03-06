@@ -22,4 +22,12 @@ app.service('WordFlipService', function ($http) {
             callback(error, null);
         });
     };
+
+    this.updateMessageById = function (id, newText, callback) {
+        $http.put('/messages/' + id, { text: newText }).then(function (response) {
+            callback(null, response.data.message);
+        }, function (error) {
+            callback(error, null);
+        });
+    };
 });

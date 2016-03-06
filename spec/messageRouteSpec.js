@@ -37,7 +37,7 @@ describe('Messages', function () {
             json: true
         }, function (error, response, body) {
             expect(body.error).toBeDefined();
-            expect(body.error).toContain('You must provide message text.');
+            expect(body.error).toContain('You must provide non-empty message text.');
             done();
         });
     });
@@ -50,7 +50,7 @@ describe('Messages', function () {
             json: true
         }, function (error, response, body) {
             expect(body.error).toBeDefined();
-            expect(body.error).toContain('You must provide message text.');
+            expect(body.error).toContain('You must provide non-empty message text.');
             done();
         });
     });
@@ -136,6 +136,52 @@ describe('Messages', function () {
                     expect(body.messages[0].text).toBe("updatedMsg1");
                     done();
                 });
+            });
+        });
+    });
+
+    it('should return a 400 on a PUT with no text property in the request body', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages',
+            method: 'POST',
+            body: { text: 'msg1' },
+            json: true
+        }, function (POSTerror, POSTresponse, POSTbody) {
+            var messageId = POSTbody.message.id;
+
+            // Update message
+            request({
+                url: 'http://localhost:3000/messages/' + messageId,
+                method: 'PUT',
+                body: { foo: 'bar' },
+                json: true
+            }, function (error, response, body) {
+                expect(response.statusCode).toBe(400);
+                done();
+            });
+        });
+    });
+
+    it('should return a 400 on a PUT with an empty string as text property in the request body', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages',
+            method: 'POST',
+            body: { text: 'msg1' },
+            json: true
+        }, function (POSTerror, POSTresponse, POSTbody) {
+            var messageId = POSTbody.message.id;
+
+            // Update message
+            request({
+                url: 'http://localhost:3000/messages/' + messageId,
+                method: 'PUT',
+                body: { text: '' },
+                json: true
+            }, function (error, response, body) {
+                expect(response.statusCode).toBe(400);
+                done();
             });
         });
     });
