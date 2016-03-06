@@ -10,7 +10,7 @@ router.post('/', function (req, res, next) {
     var text = req.body.text;
 
     if (!text) {
-        res.status(400).json({ error: 'You must provide message text.' });
+        res.status(400).json({ error: 'You must provide non-empty message text.' });
     }
     else {
         messageUtil.add(text, function (error, message) {
