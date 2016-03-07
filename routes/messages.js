@@ -120,6 +120,9 @@ router.get('/:id/query', function (req, res, next) {
                     }
                 }
             }
+            else {
+                res.status(400).json({ error: 'You must specify a comma-separated list of valid queries. Valid values are: isPalindrome: ' });
+            }
         }
     });
 });
