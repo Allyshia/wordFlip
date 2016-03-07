@@ -79,5 +79,5 @@ An AWS EC2 instance is provisioned with a MongoDB Docker Image, and pulling and 
 - To update an existing deployment with new code, run: ``sh update.sh``
 
 ## Sequence diagram
-A brief overview of the flow. The DB and other backend components have been omitted for simplicity, assuming their functions are obvious.
+Below is a brief overview of the application's flow. The DB and other backend components have been omitted for simplicity, assuming their functions are obvious.
 ![WordFlip sequence diagram](/word_flip_seq_diagram.png "Optional Title")
