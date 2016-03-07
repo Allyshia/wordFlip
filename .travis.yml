@@ -1,0 +1,12 @@
+sudo: required
+
+language: javascript
+
+services:
+  - docker
+
+before_install:
+- docker build -t asewdat/word-flip .
+- docker push asewdat/word-flip
+
+script:
