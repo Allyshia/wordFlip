@@ -5,7 +5,7 @@ docker pull asewdat/word-flip
 docker kill word-flip-app
 
 # Remove word-flip-app container if exists
-docker kill word-flip-app
+docker rm word-flip-app
 
 # Start word-flip-app using latest image
 docker run -p 80:3000 --name word-flip-app --link mongo-img-0:mongo -d asewdat/word-flip
