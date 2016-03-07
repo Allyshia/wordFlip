@@ -354,6 +354,28 @@ describe('Messages', function () {
             });
         });
     });
+
+    it('should return a 400 response if no query parameter is provided', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages',
+            method: 'POST',
+            body: { text: 'racecars' },
+            json: true
+        }, function (POSTerror, POSTresponse, POSTbody) {
+            var messageId = POSTbody.message.id;
+
+            // Send invalid query
+            request({
+                url: 'http://localhost:3000/messages/' + messageId + '/query',
+                method: 'GET',
+                json: true
+            }, function (error, response, body) {
+                expect(response.statusCode).toBe(400);
+                done();
+            });
+        });
+    });
 });
 
 function clearDB() {
