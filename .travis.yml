@@ -9,9 +9,6 @@ before_install:
 - docker build -t asewdat/word-flip .
 - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 - docker push asewdat/word-flip
-- docker pull mongo
-- docker run --name mongo-img-0 -d mongo
-- docker run -p 80:3000 --name word-flip-app --link mongo-img-0:mongo -d asewdat/word-flip
 
 script:
 - npm install
