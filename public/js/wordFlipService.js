@@ -30,4 +30,12 @@ app.service('WordFlipService', function ($http) {
             callback(error, null);
         });
     };
+
+    this.getMessageDetails = function (id, queries, callback) {
+        $http.get('/messages/' + id + '/query?params=' + queries.join(',')).then(function (response) {
+            callback(null, response.data.queryResult);
+        }, function (error) {
+            callback(error, null);
+        });
+    };
 });
