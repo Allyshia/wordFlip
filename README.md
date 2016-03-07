@@ -6,7 +6,7 @@ Check it out [here](http://ec2-52-23-242-43.compute-1.amazonaws.com/ "WordFlip")
 ## Architecture overview
 WordFlip is :
 
-1. A REST API built on NodeJS. See full REST API docs [here](http://ec2-52-23-242-43.compute-1.amazonaws.com/docs "REST API Docs") (click on "Messages" to get started).
+1. A REST API built on NodeJS. See full REST API docs [here](http://ec2-52-23-242-43.compute-1.amazonaws.com/docs "REST API Docs") (click on "messages : Operations around messages" to get started).
 2. An AngularJS client
 
 Its technology stack looks something like this:
