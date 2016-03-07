@@ -1,5 +1,5 @@
-app.controller('MessageDetailController', ['$scope', '$routeParams', 'WordFlipService',
-    function ($scope, $routeParams, WordFlipService) {
+app.controller('MessageDetailController', ['$scope', '$routeParams', '$location', 'WordFlipService',
+    function ($scope, $routeParams, $location, WordFlipService) {
         $scope.messageId = $routeParams.messageId;
         $scope.message;
         $scope.editing = false;
@@ -63,5 +63,9 @@ app.controller('MessageDetailController', ['$scope', '$routeParams', 'WordFlipSe
                     $scope.getMessageDetails();
                 }
             });
+        };
+
+        $scope.goToMainView = function () {
+            $location.path('/');
         };
     }]);
