@@ -21,7 +21,7 @@
         "description": "Find out more",
         "url": "http://swagger.io"
       }
-    },
+    }
   ],
   "schemes": [
     "http"
@@ -36,7 +36,7 @@
         "description": "",
         "operationId": "addMessage",
         "consumes": [
-          "application/json",
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -75,7 +75,7 @@
         "description": "",
         "operationId": "updateMessage",
         "consumes": [
-          "application/json",
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -228,16 +228,16 @@
           "format": "int64"
         },
         "text": {
-          "type": "string",
-        },
+          "type": "string"
+        }
       }
     },
     "MessageInput": {
       "type": "object",
       "properties": {
         "text": {
-          "type": "string",
-        },
+          "type": "string"
+        }
       }
     }
   },
