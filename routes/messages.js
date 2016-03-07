@@ -106,7 +106,7 @@ router.get('/:id/query', function (req, res, next) {
                 if (queries) {
                     var areQueriesValid = messageQueriesUtil.validateQueries(queries);
                     if (!areQueriesValid) {
-                        res.status(400).json({ error: 'You must specify a comma-separated list of valid queries. Valid values are: isPalindrome: ' });
+                        res.status(400).json({ error: 'You must specify a comma-separated list of valid queries. Valid values are: isPalindrome' });
                     }
                     else {
                         messageQueriesUtil.processQueries(message, queries, function (error, queryResult) {
@@ -121,7 +121,7 @@ router.get('/:id/query', function (req, res, next) {
                 }
             }
             else {
-                res.status(400).json({ error: 'You must specify a comma-separated list of valid queries. Valid values are: isPalindrome: ' });
+                res.status(400).json({ error: 'You must specify a comma-separated list of valid queries. Valid values are: isPalindrome' });
             }
         }
     });

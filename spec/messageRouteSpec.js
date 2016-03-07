@@ -8,9 +8,21 @@ var util = require('util');
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 
+var serviceConfig = require('../config/config').services;
+var config = process.env.NODE_ENV == 'test' ? serviceConfig.test.mongo
+    : process.env.NODE_ENV == 'development' ? serviceConfig.local.mongo
+    : serviceConfig.production.mongo;
+
+var url = 'mongodb://' + config.host + ':' + config.port + '/' + config.db;
+
 describe('Messages', function () {
     beforeEach(function (done) {
-        clearDB().then(done);
+        console.log('Dropping Test DB');
+        mongoose.connect(url, function(){
+            mongoose.connection.db.dropDatabase(function(){
+                done();
+            })
+        })
     });
 
     afterAll(function () {
@@ -377,13 +389,3 @@ describe('Messages', function () {
         });
     });
 });
-
-function clearDB() {
-    var promises = [];
-    for (var i in mongoose.connection.collections) {
-        promises.push(mongoose.connection.collections[i].remove(function () {
-        }));
-    }
-
-    return Promise.all(promises);
-}

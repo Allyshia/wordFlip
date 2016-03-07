@@ -12,35 +12,33 @@ var Message = require('../models/message');
 var url = 'mongodb://' + config.host + ':' + config.port + '/' + config.db;
 var options = {};
 
-var db = mongoose.connection;
-db.on('error', function (error) {
-    console.log('Mongoose connection error: ');
-    console.log(util.inspect(error));
-});
+module.exports.createConnection = function () {
 
-db.on('open', function () {
-    console.log('Mongoose connection open!');
-});
+    var db = mongoose.createConnection();
+    db.on('error', function (error) {
+        console.log('Mongoose connection error: ');
+        console.log(util.inspect(error));
+    });
 
-db.on('disconnected', function () {
-    console.log('Mongoose connections closed.');
-});
+    db.on('open', function () {
+        console.log('Mongoose connection open!');
+    });
 
-module.exports.connect = function (callback) {
+    db.on('disconnected', function () {
+        console.log('Mongoose connections closed.');
+    });
 
     //options.server.socketOptions = options.replset.socketOptions = { keepAlive: 120 };
 
-    mongoose.connect(url, options).then(callback);
+    //mongoose.connect(url, options).then(callback);
     //var db = mongoose.connection;
 
-    //console.log("collections: ");
-    //for(var i in db.collections){
-    //    console.log(util.inspect(db.collections[i].name));
-    //}
+    db.open(url);
 
     return db;
 };
 
-module.exports.closeConnection = function () {
-    mongoose.disconnect();
+module.exports.closeConnection = function (connection) {
+    //return mongoose.disconnect();
+    connection.close();
 };
