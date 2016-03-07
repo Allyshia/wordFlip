@@ -33,10 +33,10 @@ module.exports.connect = function (callback) {
     mongoose.connect(url, options).then(callback);
     //var db = mongoose.connection;
 
-    console.log("collections: ");
-    for(var i in db.collections){
-        console.log(util.inspect(db.collections[i].name));
-    }
+    //console.log("collections: ");
+    //for(var i in db.collections){
+    //    console.log(util.inspect(db.collections[i].name));
+    //}
 
     return db;
 };

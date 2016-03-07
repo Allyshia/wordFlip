@@ -218,7 +218,6 @@ describe('Messages', function () {
     });
 
     it('should return a 404 error response for a GET on message that doesn\'t exist', function (done) {
-        // Add a message
         request({
             url: 'http://localhost:3000/messages/56db10aded0427f90d0210ca',
             method: 'GET',
@@ -230,7 +229,6 @@ describe('Messages', function () {
     });
 
     it('should return a 404 error response for a GET on a message with an invalid ID', function (done) {
-        // Add a message
         request({
             url: 'http://localhost:3000/messages/someArbitraryTextThatIsntAValidID',
             method: 'GET',
@@ -242,7 +240,6 @@ describe('Messages', function () {
     });
 
     it('should return a 404 error response for a PUT on message that doesn\'t exist', function (done) {
-        // Add a message
         request({
             url: 'http://localhost:3000/messages/56db10aded0427f90d0210ca',
             method: 'PUT',
@@ -255,7 +252,6 @@ describe('Messages', function () {
     });
 
     it('should return a 404 error response for a PUT message with an invalid ID', function (done) {
-        // Add a message
         request({
             url: 'http://localhost:3000/messages/someArbitraryTextThatIsntAValidID',
             method: 'PUT',
@@ -268,7 +264,6 @@ describe('Messages', function () {
     });
 
     it('should return a 404 error response for a DELETE on message that doesn\'t exist', function (done) {
-        // Add a message
         request({
             url: 'http://localhost:3000/messages/56db10aded0427f90d0210ca',
             method: 'DELETE',
@@ -280,7 +275,6 @@ describe('Messages', function () {
     });
 
     it('should return a 404 error response for a DELETE message with an invalid ID', function (done) {
-        // Add a message
         request({
             url: 'http://localhost:3000/messages/someArbitraryTextThatIsntAValidID',
             method: 'DELETE',
@@ -288,6 +282,76 @@ describe('Messages', function () {
         }, function (error, response, body) {
             expect(response.statusCode).toBe(404);
             done();
+        });
+    });
+
+    it('should return an object describing that a palindrome message is a palindrome when queried', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages',
+            method: 'POST',
+            body: { text: 'racecar' },
+            json: true
+        }, function (POSTerror, POSTresponse, POSTbody) {
+            var messageId = POSTbody.message.id;
+
+            // Send isPalindrome query
+            request({
+                url: 'http://localhost:3000/messages/' + messageId + '/query?params=isPalindrome',
+                method: 'GET',
+                json: true
+            }, function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                expect(body.queryResult).toBeDefined();
+                expect(body.queryResult.isPalindrome).toBe(true);
+                done();
+            });
+        });
+    });
+
+    it('should return an object describing that a palindrome message is NOT a palindrome when queried', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages',
+            method: 'POST',
+            body: { text: 'racecars' },
+            json: true
+        }, function (POSTerror, POSTresponse, POSTbody) {
+            var messageId = POSTbody.message.id;
+
+            // Send isPalindrome query
+            request({
+                url: 'http://localhost:3000/messages/' + messageId + '/query?params=isPalindrome',
+                method: 'GET',
+                json: true
+            }, function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                expect(body.queryResult).toBeDefined();
+                expect(body.queryResult.isPalindrome).toBe(false);
+                done();
+            });
+        });
+    });
+
+    it('should return a 400 response if an invalid query parameter is provided', function (done) {
+        // Add a message
+        request({
+            url: 'http://localhost:3000/messages',
+            method: 'POST',
+            body: { text: 'racecars' },
+            json: true
+        }, function (POSTerror, POSTresponse, POSTbody) {
+            var messageId = POSTbody.message.id;
+
+            // Send invalid query
+            request({
+                url: 'http://localhost:3000/messages/' + messageId + '/query?params=invalidQueryParam',
+                method: 'GET',
+                json: true
+            }, function (error, response, body) {
+                expect(response.statusCode).toBe(400);
+                done();
+            });
         });
     });
 });

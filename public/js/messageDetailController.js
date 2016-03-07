@@ -22,7 +22,7 @@ app.controller('MessageDetailController', ['$scope', '$routeParams', 'WordFlipSe
             if (!$scope.editing) {
                 $scope.editing = true;
             }
-        }
+        };
 
         $scope.stopEditing = function () {
             if ($scope.editing) {
@@ -30,7 +30,7 @@ app.controller('MessageDetailController', ['$scope', '$routeParams', 'WordFlipSe
                 $scope.hasError = false;
                 $scope.inputHelpMessage = '';
             }
-        }
+        };
 
         $scope.updateMessage = function () {
             $scope.editing = false;

@@ -1,7 +1,8 @@
 var express = require('express');
 var util = require('util');
 var _ = require('lodash');
-var messageUtil = require('../util/message');
+var messageUtil = require('../util/message-crud');
+var messageQueriesUtil = require('../util/message-queries');
 var Message = require('../models/message');
 
 var router = express.Router();
@@ -46,17 +47,13 @@ router.get('/', function (req, res, next) {
 router.get('/:id', function (req, res, next) {
     messageUtil.get(req.params.id, function (error, message) {
         if (error) {
-            res.status(500).send('Could not get message: ' + util.inspect(error));
+            res.status(500).json({ error: 'Could not get message: ' + util.inspect(error) });
         }
         else if (!message) {
             res.sendStatus(404);
         }
         else {
-            res.status(200).json(
-                {
-                    message: Message.mapResponse(message)
-                }
-            );
+            res.status(200).json({ message: Message.mapResponse(message) });
         }
     });
 });
@@ -94,9 +91,37 @@ router.delete('/:id', function (req, res, next) {
     });
 });
 
-// --- TEST GET ---
-router.get('/test', function (req, res, next) {
-    res.send('This is a test!');
+router.get('/:id/query', function (req, res, next) {
+    messageUtil.get(req.params.id, function (error, message) {
+        if (error) {
+            res.status(500).json({ error: 'Could not get message: ' + util.inspect(error) });
+        }
+        else if (!message) {
+            res.sendStatus(404);
+        }
+        else {
+            var queryParams = req.query.params;
+            if (queryParams) {
+                var queries = queryParams.split(',');
+                if (queries) {
+                    var areQueriesValid = messageQueriesUtil.validateQueries(queries);
+                    if (!areQueriesValid) {
+                        res.status(400).json({ error: 'You must specify a comma-separated list of valid queries. Valid values are: isPalindrome: ' });
+                    }
+                    else {
+                        messageQueriesUtil.processQueries(message, queries, function (error, queryResult) {
+                            if (error) {
+                                res.status(500).json({ error: 'Error processing queries: ' + util.inspect(error) });
+                            }
+                            else {
+                                res.status(200).json({ queryResult: queryResult });
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    });
 });
 
 module.exports = router;

@@ -8,4 +8,12 @@ var messageSchema = mongoose.Schema({
     text: String
 });
 
+messageSchema.methods.isPalindrome = function () {
+    return this.text === _reverse(this.text);
+};
+
+function _reverse(s) {
+    return s.split('').reverse().join('');
+}
+
 module.exports = messageSchema;
