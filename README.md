@@ -11,6 +11,7 @@ WordFlip is :
 
 Its technology stack looks something like this:
 
+- AngularJS + Bootstrap CSS (UI/REST client using the Angular framework)
 - Express (REST API NodeJS framework)
 - NodeJS (Javascript backend)
 - Swagger UI + Swagger 2.0 Specification (REST API documentation)
