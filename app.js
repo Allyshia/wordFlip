@@ -9,6 +9,8 @@ var routes = require('./routes/index');
 var messages = require('./routes/messages');
 
 var app = express();
+app.use('/docs', express.static('./public/lib/swagger-ui/dist'));
+app.use('/swagger', express.static('./swagger.json'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
