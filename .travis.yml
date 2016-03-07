@@ -11,4 +11,5 @@ before_install:
 - docker push asewdat/word-flip
 
 script:
+- npm install
 - npm test
